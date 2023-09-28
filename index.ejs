@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Stylesheet -->
+    <style>
+        /* Reset some default browser styles */
+        body, h2, p {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Set a background color and font for the body */
+        body {
+            background-color: #f0f0f0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Center-align the h2 element */
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+            color: #333; /* Dark gray text color */
+        }
+
+        /* Style the marquee element */
+        marquee {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            color: blue;
+        }
+
+        /* Center the container div */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff; /* White background color */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+            border-radius: 5px;
+        }
+
+        /* Style the search box */
+        .search-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        /* Style the input field */
+        #inp-number {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        /* Style the search button */
+        #search-btn {
+            background-color: #007bff; /* Blue button color */
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Change button color on hover */
+        #search-btn:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        /* Style the result div */
+        .result {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Style the error message */
+        .error {
+            text-align: center;
+            color: red;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <br>
+    <center><h2>"Have more than you show, speak less than you now."</h2></center>
+    <audio id="sound"></audio>
+    <marquee color="blue">Validate a Number.. </marquee>
+    <br>
+    <div class="container">
+        <div class="search-box">
+            <input type="text" placeholder="Type the phone number here.." id="inp-number" />
+            <button id="search-btn">Validate</button>
+        </div>
+        <div class="result" id="result"></div>
+    </div>
+    <!-- Script -->
+    <script>
+        const apiKey = "BhkcswuuRPpFvWxGUdMZooajwWFh4mUG";
+        const apiUrl = "https://api.apilayer.com/number_verification/validate";
+
+        const result = document.getElementById("result");
+        const sound = document.getElementById("sound");
+        const btn = document.getElementById("search-btn");
+
+        btn.addEventListener("click", () => {
+            let inpNumber = document.getElementById("inp-number").value;
+
+            fetch(`${apiUrl}?number=${inpNumber}&apikey=${apiKey}`)
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+                    if (data.valid) {
+                        result.innerHTML = `<h3>Number is valid</h3>`;
+                        
+                    } else {
+                        result.innerHTML = `<h3 class="error">Number is not valid</h3>`;
+                    }
+                })
+                .catch(() => {
+                    result.innerHTML = `<h3 class="error">Error validating the number</h3>`;
+                });
+        });
+
+        function playSound() {
+            sound.play();
+        }
+    </script>
+</body>
+</html>
